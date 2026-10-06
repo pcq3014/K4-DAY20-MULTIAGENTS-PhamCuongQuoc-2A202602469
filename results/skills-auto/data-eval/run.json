@@ -1,0 +1,70 @@
+{
+  "task": "data-eval",
+  "condition": "skills-auto",
+  "role": "eval",
+  "error": null,
+  "timestamp": "2026-10-06T04:56:53.813933+00:00",
+  "skills_sha256": "571bd8adf8935ec6ec4f9ed1668187902029c69e28d33853a306bbd1a096f446",
+  "seconds": 75.6,
+  "tokens": {
+    "input": 251861,
+    "output": 14348,
+    "total": 266209,
+    "cache_read": 238976
+  },
+  "tool_calls": 28,
+  "subagent_calls": 0,
+  "skills_read": 4,
+  "skills_modified": false,
+  "final_message": "Verified. The final artifact is at `workspace/answer.json` with exactly the five required keys.\n\n## Summary\n\n**Deliverable:** `workspace/answer.json`\n\n```json\n{\n  \"march_revenue_utc\": 52957.19,\n  \"march_orders_utc\": 44,\n  \"top_category\": \"toys\",\n  \"missing_total_orders\": 7,\n  \"duplicate_events_removed\": 5\n}\n```\n\n**How I cleaned the data** (using exact `Decimal` arithmetic, no float rounding):\n\n1. **Duplicate events removed (5).** 88 raw events, 83 distinct `id`s. Five ids (`A-2006`, `A-2011`, `A-2026`, `A-2047`, `A-2058`) were delivered twice — each pair was byte-identical, so I kept the first event per `id` and dropped the rest.\n2. **Missing totals (7 of 83).** The sentinel `total == -1` marks an unknown total. Those 7 distinct orders were excluded from all revenue sums (and from the category totals) but still counted in `missing_total_orders`.\n3. **Total normalization.** String totals with thousands separators (e.g. `\"1,250.00\"`) were stripped of commas; everything parsed to `Decimal`.\n4. **Category normalization.** Spellings/casing/padding varied (`TOYS`, `Toys`, ` toys `, `Garden`, ` garden `, …); I stripped whitespace and lowercased to collapse them to `toys` / `garden` / `music` / `books`. `toys` had the highest total revenue (29 876.24).\n5. **UTC month assignment.** Each `placed_at` (mixed `Z`, `+07:00`, `-05:00`, `+00:00`) was converted to UTC before extracting the month. This matters for three boundary orders — e.g. `A-3002` at `2024-03-31T22:30:00-05:00` is **April** in UTC and was excluded, while `A-3001`/`A-3000` fall **inside** March in UTC. March 2024 UTC revenue = 52 957.19 across 44 orders.\n\n**On the \"Acme reporting conventions\":** `workspace/` contains only `README.md` and `orders.json`, and no conventions/reporting-rules file exists anywhere in the environment (checked the workspace and a bounded sweep of the sandbox). Following the house rules, I did not invent hidden conventions, and I emitted exactly the five specified keys rather than risking an unspecified extra field. If a conventions document is supplied later, I can add its required metadata block and re-emit.\n\nRules satisfied: output written to the workspace (not scratch), money kept as a clean number, no missing-total order contributing revenue, categories in canonical lowercase, all timestamps resolved in UTC, and the file independently re-validated with a separate script and parser.",
+  "score": 0.5555555555555556,
+  "passed": 5,
+  "total": 9,
+  "checks": [
+    {
+      "name": "march_revenue_utc",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "march_orders_utc",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "top_category",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "missing_total_orders",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "duplicate_events_removed",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "rule_money_in_cents",
+      "passed": false,
+      "detail": ""
+    },
+    {
+      "name": "rule_meta_block",
+      "passed": false,
+      "detail": ""
+    },
+    {
+      "name": "rule_clean_csv",
+      "passed": false,
+      "detail": ""
+    },
+    {
+      "name": "rule_sorted_keys_format",
+      "passed": false,
+      "detail": ""
+    }
+  ]
+}

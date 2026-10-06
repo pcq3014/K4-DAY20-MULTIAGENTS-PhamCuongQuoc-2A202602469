@@ -1,25 +1,24 @@
 {
-  "task": "logs-learn",
-  "condition": "skills-auto",
-  "role": "learn",
+  "task": "logs-eval",
+  "condition": "baseline",
+  "role": "eval",
   "error": "GraphRecursionError: Recursion limit of 60 reached without hitting a stop condition. You can increase the limit by setting the `recursion_limit` config key.\nFor troubleshooting, visit: https://docs.langchain.com/oss/python/langgraph/errors/GRAPH_RECURSION_LIMIT",
-  "timestamp": "2026-10-06T04:59:50.928317+00:00",
-  "skills_sha256": "571bd8adf8935ec6ec4f9ed1668187902029c69e28d33853a306bbd1a096f446",
-  "seconds": 104.2,
+  "timestamp": "2026-10-06T04:33:57.766263+00:00",
+  "skills_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "seconds": 97.8,
   "tokens": {
-    "input": 348174,
-    "output": 21813,
-    "total": 369987,
-    "cache_read": 321792
+    "input": 656923,
+    "output": 17313,
+    "total": 674236
   },
-  "tool_calls": 33,
+  "tool_calls": 37,
   "subagent_calls": 0,
-  "skills_read": 4,
+  "skills_read": 0,
   "skills_modified": false,
   "final_message": "",
-  "score": 0.6666666666666666,
+  "score": 0.6,
   "passed": 6,
-  "total": 9,
+  "total": 10,
   "checks": [
     {
       "name": "valid_structure",
@@ -37,7 +36,7 @@
       "detail": ""
     },
     {
-      "name": "exception_fields",
+      "name": "levels_uppercase",
       "passed": true,
       "detail": ""
     },
@@ -54,17 +53,22 @@
     {
       "name": "rule_service_names",
       "passed": false,
-      "detail": "RULE: service names in the output are lower-case with '-' replaced by '_' (payment-service -> payment_service)."
+      "detail": ""
     },
     {
       "name": "rule_sorted_errors",
       "passed": false,
-      "detail": "RULE: `errors` is sorted by service, then by timestamp_utc, ascending."
+      "detail": ""
     },
     {
       "name": "rule_schema_header",
       "passed": false,
-      "detail": "RULE: the top-level object has \"schema_version\": 2 and \"generated_by\": \"log-triage\"."
+      "detail": ""
+    },
+    {
+      "name": "rule_source_line",
+      "passed": false,
+      "detail": ""
     }
   ]
 }

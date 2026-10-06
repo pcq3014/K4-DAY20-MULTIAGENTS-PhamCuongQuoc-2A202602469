@@ -105,11 +105,13 @@ def run_task(task_id: str, condition: str, results_dir="results", model=None, re
             record["error"] = f"{type(e).__name__}: {e}"
         record["seconds"] = round(time.time() - t0, 1)
 
-        tokens = {"input": 0, "output": 0, "total": 0}
+        tokens = {"input": 0, "output": 0, "total": 0, "cache_read": 0}
         for u in usage.usage_metadata.values():
             tokens["input"] += u.get("input_tokens", 0)
             tokens["output"] += u.get("output_tokens", 0)
             tokens["total"] += u.get("total_tokens", 0)
+            # token đầu vào được nhà cung cấp phục vụ từ cache tiền tố (DeepSeek: prompt_cache_hit_tokens)
+            tokens["cache_read"] += (u.get("input_token_details") or {}).get("cache_read", 0)
         record["tokens"] = tokens
 
         calls = [tc for m in messages if isinstance(m, AIMessage) for tc in m.tool_calls]

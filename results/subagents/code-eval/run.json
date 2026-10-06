@@ -1,0 +1,79 @@
+{
+  "task": "code-eval",
+  "condition": "subagents",
+  "role": "eval",
+  "error": null,
+  "timestamp": "2026-10-06T04:35:47.885810+00:00",
+  "skills_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "seconds": 228.2,
+  "tokens": {
+    "input": 474509,
+    "output": 40067,
+    "total": 514576
+  },
+  "tool_calls": 52,
+  "subagent_calls": 1,
+  "skills_read": 0,
+  "skills_modified": false,
+  "final_message": "All green. Summary of the work:\n\n**Failing tests:** 2 of 3 failed. Root causes were three real bugs, each contradicting its docstring:\n\n1. **`bookings/timeutil.py` — `parse_duration`** only matched the single `\"1h30m\"` pattern, so `\"2h\"`, `\"45m\"`, `\"1:30\"` and bare `\"45\"` all raised `ValueError`, breaking `total_minutes([\"1h30m\", \"2h\"])`. It now tries each documented format in turn (hours+minutes, hours, minutes, `h:mm`, bare minutes), ignoring surrounding whitespace, and still raises `ValueError` for anything unrecognised.\n\n2. **`bookings/billing.py` — `billable_blocks`** used `round()`, which rounds *half to even* and actually rounds `20/15` down to 1. It now rounds **up** with exact integer arithmetic (`-(-minutes // block)`), and raises `ValueError` for negative minutes as documented.\n\n3. **`bookings/schedule.py` — `add_slot`** had a mutable default (`slots=[]`), so repeated calls shared and mutated state (`add_slot(\"a\")` then `add_slot(\"b\")` returned `[\"a\", \"b\"]`). It now uses a `None` sentinel and always returns a brand new list without mutating the caller's input.\n\n**Changed files:** `workspace/bookings/timeutil.py`, `workspace/bookings/billing.py`, `workspace/bookings/schedule.py`, `workspace/bookings/calendar_export.py` (type hints/docstring `Args`/`Returns`/`Raises` sections added, behaviour unchanged), and `workspace/CHANGELOG.md` (documented the fixes under `## Unreleased`). `tests/` was not touched.\n\n**Verification:** `cd workspace && python -m pytest tests -q` → **3 passed**; an extra ad-hoc script confirmed edge cases beyond the visible tests (all five duration formats, whitespace, invalid inputs raising `ValueError`, `add_slot` not mutating its input and not sharing state, round-up and negative-minute rejection in `billable_blocks`, and `slot_end`). An independent reviewer re-ran the suite, byte-compared `tests/`, and checked type hints, docstrings, no mutable defaults, import order, line length and Python ≥3.10 syntax — no failures.",
+  "score": 0.7272727272727273,
+  "passed": 8,
+  "total": 11,
+  "checks": [
+    {
+      "name": "visible_suite_passes",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "tests_not_modified",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "parse_duration_all_formats",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "other_caller_fixed",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "billable_blocks_round_up",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "add_slot_no_shared_state",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "negative_minutes_rejected",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "rule_type_hints",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "rule_regression_tests",
+      "passed": false,
+      "detail": ""
+    },
+    {
+      "name": "rule_changelog",
+      "passed": false,
+      "detail": ""
+    },
+    {
+      "name": "rule_version_bump",
+      "passed": false,
+      "detail": ""
+    }
+  ]
+}

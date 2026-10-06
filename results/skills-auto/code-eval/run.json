@@ -1,70 +1,80 @@
 {
-  "task": "logs-learn",
+  "task": "code-eval",
   "condition": "skills-auto",
-  "role": "learn",
+  "role": "eval",
   "error": "GraphRecursionError: Recursion limit of 60 reached without hitting a stop condition. You can increase the limit by setting the `recursion_limit` config key.\nFor troubleshooting, visit: https://docs.langchain.com/oss/python/langgraph/errors/GRAPH_RECURSION_LIMIT",
-  "timestamp": "2026-10-06T04:59:50.928317+00:00",
+  "timestamp": "2026-10-06T04:53:26.628784+00:00",
   "skills_sha256": "571bd8adf8935ec6ec4f9ed1668187902029c69e28d33853a306bbd1a096f446",
-  "seconds": 104.2,
+  "seconds": 88.2,
   "tokens": {
-    "input": 348174,
-    "output": 21813,
-    "total": 369987,
-    "cache_read": 321792
+    "input": 249702,
+    "output": 14750,
+    "total": 264452,
+    "cache_read": 239232
   },
-  "tool_calls": 33,
+  "tool_calls": 40,
   "subagent_calls": 0,
   "skills_read": 4,
   "skills_modified": false,
   "final_message": "",
-  "score": 0.6666666666666666,
-  "passed": 6,
-  "total": 9,
+  "score": 0.8181818181818182,
+  "passed": 9,
+  "total": 11,
   "checks": [
     {
-      "name": "valid_structure",
+      "name": "visible_suite_passes",
       "passed": true,
       "detail": ""
     },
     {
-      "name": "entry_count",
+      "name": "tests_not_modified",
       "passed": true,
       "detail": ""
     },
     {
-      "name": "timestamps_utc",
+      "name": "parse_duration_all_formats",
       "passed": true,
       "detail": ""
     },
     {
-      "name": "exception_fields",
+      "name": "other_caller_fixed",
       "passed": true,
       "detail": ""
     },
     {
-      "name": "repeat_counts",
+      "name": "billable_blocks_round_up",
       "passed": true,
       "detail": ""
     },
     {
-      "name": "counts_by_service",
+      "name": "add_slot_no_shared_state",
       "passed": true,
       "detail": ""
     },
     {
-      "name": "rule_service_names",
+      "name": "negative_minutes_rejected",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "rule_type_hints",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "rule_regression_tests",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "rule_changelog",
       "passed": false,
-      "detail": "RULE: service names in the output are lower-case with '-' replaced by '_' (payment-service -> payment_service)."
+      "detail": ""
     },
     {
-      "name": "rule_sorted_errors",
+      "name": "rule_version_bump",
       "passed": false,
-      "detail": "RULE: `errors` is sorted by service, then by timestamp_utc, ascending."
-    },
-    {
-      "name": "rule_schema_header",
-      "passed": false,
-      "detail": "RULE: the top-level object has \"schema_version\": 2 and \"generated_by\": \"log-triage\"."
+      "detail": ""
     }
   ]
 }
